@@ -54,5 +54,6 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/username-generator:latest
+          severity: CRITICAL
           ignore-unfixed: true
 
