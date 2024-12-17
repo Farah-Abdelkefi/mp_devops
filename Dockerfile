@@ -1,12 +1,12 @@
 
-FROM vulnerables/web-dvwa
+# FROM vulnerables/web-dvwa
 
 
-CMD ["sh"]
+# CMD ["sh"]
 
-# FROM python:3.9-slim
+FROM python:3.9-slim
 
-# WORKDIR /app
-# COPY . /app
-# RUN pip install pytest
-# CMD ["python", "username_generator.py"]
+WORKDIR /app
+COPY . /app
+RUN pip install pytest
+CMD ["python", "username_generator.py"]

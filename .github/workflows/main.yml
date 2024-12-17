@@ -31,13 +31,31 @@ jobs:
         run: |
           pytest test_username_generator.py
           pytest --cov=username_generator --cov-report=xml
+  sonar_analysis:
+      runs-on: ubuntu-latest
+      needs: test
 
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
 
+        - name: Install tox and any other packages
+          run: pip install tox
+        - name: Run tox
+          run: tox -e py
+
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarcloud-github-action@v2
+          with:
+            args: >
+              -Dproject.settings=sonar-project.properties
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build_and_push:
     runs-on: ubuntu-latest
     needs:
       - test
-      
+      - sonar_analysis      
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -55,5 +73,5 @@ jobs:
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/username-generator:latest
           severity: CRITICAL
-          ignore-unfixed: true
+          ignore-unfixed: false
 
