@@ -2,7 +2,7 @@
 FROM vulnerables/web-dvwa
 
 
-CMD["sh"]
+CMD ["sh"]
 
 # FROM python:3.9-slim
 
